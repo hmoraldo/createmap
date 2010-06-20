@@ -3,11 +3,17 @@ import imageCompare
 import os
 
 
+def fileKey(filestr):# for simple natural ordering
+	k=list(filestr)
+	k.insert(0,len(filestr))
+	return k
+
+
 class CompositeImageGenerator:
 	def __init__(self, directory, colorTolerance, checkRange, imageBorders):
 		self.directory=directory
 		self.ic=imageCompare.ImageCompare(colorTolerance, checkRange)
-		self.framefiles=sorted(os.listdir(self.directory))
+		self.framefiles=sorted(os.listdir(self.directory), key=fileKey)
 		self.imageBorders=imageBorders
 
 	def cropImage(self, image):

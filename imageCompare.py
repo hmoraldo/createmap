@@ -61,7 +61,7 @@ class ImageCompare:
 				err=self.compareAt(img1, img2, xc, yc, False)
 				errortable.append((xc, yc, err))
 		t2=time.time()
-		print "time "+str(t2-t1)
+		print "- time "+str(t2-t1)
 	
 		minerror=min(errortable, key=lambda x: x[2])
 
