@@ -1,10 +1,25 @@
+Create Map
+==========
+
+Create Map converts a video to a map of the background shown in the video. It works best in videos where the camera movement is orthogonal to the camera direction. It works great, for example, in videos of 2d videogames.
+
+For example, Create Map takes the frames of a video like this http://www.youtube.com/watch?v=Aw3AwK74wWQ as input, and then it generates the following background map:
+
+![example](examples/example-mario-small.jpg)
+
+([higher res](examples/example-mario.jpg))
+
+
+
 Requirements:
+-------------
 
 - python
 - python imaging library (PIL)
 - ffmep or similar program for frames extraction
 
 How to use createmap:
+---------------------
 
 
 If you want to create a map from a video:
@@ -13,15 +28,16 @@ If you want to create a map from a video:
 
 ffmpeg -i video.mpg image%d.jpg
 
-works with mpg, flv, mov, and most video formats.
+works with mpg, flv, mov, and most video formats. You can remove some of the initial and final frames
+before starting map processing.
 
 2) then change the settings in config.py. An easy way to do the following is:
 
-- keep
+keep
 
 colorTolerance=50
 
-- does your image have borders? how big are them? modify:
+does your image have borders? how big are them? modify:
 
 imageBorders=(16,0,16,0)
 
