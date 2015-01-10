@@ -28,7 +28,7 @@ If you want to create a map from a video:
 
 1) use ffmpeg to extract the video frames:
 
-ffmpeg -i video.mpg image%d.jpg
+	ffmpeg -i video.mpg image%d.jpg
 
 works with mpg, flv, mov, and most video formats. You can remove some of the initial and final frames
 before starting map processing. You want your image directory to contain only the frames for a single level or stage, without any effects like fade in or fade out, labels, etc.
@@ -37,11 +37,11 @@ before starting map processing. You want your image directory to contain only th
 
 keep
 
-colorTolerance=50
+	colorTolerance=50
 
 Does your image have borders? how big are them? modify:
 
-imageBorders=(16,0,16,0)
+	imageBorders=(16,0,16,0)
 
 so that the first number tells how big is the left border, the second number tells
 how big is the top border, then the right and the bottom border. If the image contains
@@ -51,39 +51,39 @@ about a small border in the whole image.
 3) how does your video move? if it moves only from left to right (at any times moving to left,
 or right, but never top or down), use:
 
-checkRange=(10,0,10,0)
+	checkRange=(10,0,10,0)
 
 if it produces a bad map because there is too much movement, try bigger values like:
 
-checkRange=(20,0,20,0)
+	checkRange=(20,0,20,0)
 
 a way to know if that's the problem is to check the logged offset values to see if they are
 near the limits or not.
 
 If the video moves only from up to down (never left or right), use:
 
-checkRange=(0,10,0,10)
+	checkRange=(0,10,0,10)
 
 or:
 
-checkRange=(0,20,0,20)
+	checkRange=(0,20,0,20)
 
 If the video moves in all directions, you'll have to set it like this:
 
-checkRange=(10,10,10,10)
+	checkRange=(10,10,10,10)
 
 or
 
-checkRange=(20,20,20,20)
+	checkRange=(20,20,20,20)
 
 but it's going to be many times slower than if it only moves in one-axis. If it moves very slowly,
 perhaps you can try with this setting first:
 
-checkRange=(5,5,5,5)
+	checkRange=(5,5,5,5)
 
 4) Now you can run the map creator, just use:
 
-python createmap.py framedir results.jpg
+	python createmap.py framedir results.jpg
 
 where framedir is the path to the frames directory.
 
@@ -92,7 +92,7 @@ Extra tips
 
 - Create Map's performance will be proportional to the area of the images it has to process. If you need Create Map to run faster, set all frames to a smaller size. Using Image Magick's "convert" can be useful for this. For example
 
-for i in `ls *jpg`; do echo $i; convert $i -resize 320 $i; done 
+	for i in `ls *jpg`; do echo $i; convert $i -resize 320 $i; done 
 
 will resize all images in a directory to a max width of 320 pixels.
 
