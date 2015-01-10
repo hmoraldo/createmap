@@ -3,6 +3,8 @@ Create Map
 
 Create Map converts a video to a map of the background shown in the video. It works best in videos where the camera movement is orthogonal to the camera direction. It works great, for example, in videos of 2d videogames.
 
+Create Map is a simple example of image stitching / mosaicing.
+
 For example, Create Map takes the frames of a video like this http://www.youtube.com/watch?v=Aw3AwK74wWQ as input, and then it generates the following background map:
 
 ![example](examples/example-mario-small.jpg)
@@ -29,7 +31,7 @@ If you want to create a map from a video:
 ffmpeg -i video.mpg image%d.jpg
 
 works with mpg, flv, mov, and most video formats. You can remove some of the initial and final frames
-before starting map processing.
+before starting map processing. You want your image directory to contain only the frames for a single level or stage, without any effects like fade in or fade out, labels, etc.
 
 2) then change the settings in config.py. An easy way to do the following is:
 
@@ -37,7 +39,7 @@ keep
 
 colorTolerance=50
 
-does your image have borders? how big are them? modify:
+Does your image have borders? how big are them? modify:
 
 imageBorders=(16,0,16,0)
 
@@ -85,6 +87,28 @@ python createmap.py framedir results.jpg
 
 where framedir is the path to the frames directory.
 
+Extra tips
+----------
+
+- Create Map's performance will be proportional to the area of the images it has to process. If you need Create Map to run faster, set all frames to a smaller size. Using Image Magick's "convert" can be useful for this. For example
+
+for i in `ls *jpg`; do echo $i; convert $i -resize 320 $i; done 
+
+will resize all images in a directory to a max width of 320 pixels.
+
+- Create Map's peformance will depend on your settings. Specially important: performance will be proportional to the area of the rectangle defined by checkRange. if checkRange is a single line as in (10,0,10,0), Create Map will be really fast. If instead it is a bigger rectangle like (10,10,10,10), it will be much slower. Make checkRange as small as you can.
+
+- Create Map creates a mosaic of frames, putting them in the right positions (whenever it succeeds). One problem that arises often is that the frames of a video can have a border that is not part of the level you want to map. A mosaic of such frames would show a lot of repeated borders inside the image. The way to fix this is either by remove all borders in the images, or to set the imageBorders configuration value.
+
+- Games that use parallax effects for their backgrounds may not let the system compute the right positions for the mosaic, making Create Map build maps that kind of make sense, but that have a lot of noise.
+
+- Games that use effects of moving tiles (eg. for water or lava) may not let the system compute the right positions for the mosaic, making Create Map build maps that are fine almost everywhere, except in the areas where there is a lot of water / lava.
+
+This happens for example in the Earth Worm Jim game, and the reason why this happens is that Create Map needs to estimate the relative position change between frames, and moving water may look to the program as static water with a moving camera.
+
+- Because the process of generating a map can be slow, it is recommended that the value for the different configuration settings is tested in a smaller set of images (say, 100 frames instead of the thousands of frames that can compose the recording of a single stage)
+
+- Most of the times, the resulting map / mosaic won't include any moving objects. However, in some cases you may find that small traces of such moving objects are found in the final map. A way to fix this is to run Create Map on videos where the player kills or picks up all moving objects.
 
 
 
