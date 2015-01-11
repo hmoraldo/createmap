@@ -90,7 +90,7 @@ where framedir is the path to the frames directory.
 Extra tips
 ----------
 
-- Create Map's performance will be proportional to the area of the images it has to process. If you need Create Map to run faster, set all frames to a smaller size. Using Image Magick's "convert" can be useful for this. For example
+- Create Map's performance will be proportional to the area of the images it has to process. If you need Create Map to run faster, set all frames to a smaller size. Using Image Magick's "convert" can be useful for this. For example:
 
 	for i in `ls *jpg`; do echo $i; convert $i -resize 320 $i; done 
 
@@ -110,6 +110,63 @@ This happens for example in the Earth Worm Jim game, and the reason why this hap
 
 - Most of the times, the resulting map / mosaic won't include any moving objects. However, in some cases you may find that small traces of such moving objects are found in the final map. A way to fix this is to run Create Map on videos where the player kills or picks up all moving objects.
 
+Some examples
+-------------
+
+Some further examples about the details above.
+
+- Battletoads, map extracted from [this video](https://www.youtube.com/watch?v=UHgVR0Ykkcc). The map can be seen [here](examples/battletoads.jpg).
+
+This map was built using the following configuration:
+
+	checkRange=(5,5,5,5)
+	imageBorders=(16,0,16,0)
+
+(the result is pretty good, even though there are water tiles).
+
+- Contra the Hard Corps, map extracted from [this video](https://www.youtube.com/watch?v=JtWQssQOgoI). The map can be seen [here](examples/contrahardcorps.jpg).
+
+This map was built using the following configuration:
+
+	checkRange=(10,10,0,10)
+	imageBorders=(0,0,0,0)
+
+on frames with reduced size:
+
+	for i in `ls *jpg`; do convert $i -resize 160 $i; done 
+
+The result has some good parts, and other parts that are pretty bad. The worst part is at the beginning, possibly because at the beginning the video moves at high speed. It is possible that increasing the checkRange horizontal values would give an improved map, but it would take longer to compute.
+
+- Jazz Jackrabbit, map extracted from [this video](https://www.youtube.com/watch?v=Jk1x5BTSBTw). The map can be seen [here](examples/jazz.jpg).
+
+This map was built using the following configuration:
+
+	checkRange=(10,10,0,10)
+	imageBorders=(0,0,0,16)
+
+on frames with reduced size:
+
+	for i in `ls *jpg`; do convert $i -resize 160 $i; done 
+
+- Super Mario Bros 2, map extracted from [this video](https://www.youtube.com/watch?v=9x5AvCTNqV0). The map can be seen [here](examples/supermariobros2.jpg).
+
+This map was built using the following configuration:
+
+	checkRange=(20,0,0,0)
+	imageBorders=(48,13,42,15)
+
+The image borders have to be set correctly in this case, or the end result has the overlapping issues described above. Also, the end result shows a lot of sprite pieces.
+
+(This Super Mario Bros 2 example was computed from a different video than the one shown at the top, which explains why the result is a bit different)
+
+- Super Mario Bros 3, map extracted from [this video](https://www.youtube.com/watch?v=bKublR3pZ2s). The map can be seen [here](examples/supermariobros3.jpg).
+
+This map was built using the following configuration:
+
+	checkRange=(10,10,0,10)
+	imageBorders=(10,0,0,46)
+
+Again, setting the image borders to the right value was critical to making this case work.
 
 
 
