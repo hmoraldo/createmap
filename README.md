@@ -148,6 +148,8 @@ on frames with reduced size:
 
 	for i in `ls *jpg`; do convert $i -resize 160 $i; done 
 
+The result is good in some parts, but there are lots of artifacts that are caused by the water areas.
+
 - Super Mario Bros 2, map extracted from [this video](https://www.youtube.com/watch?v=9x5AvCTNqV0). The map can be seen [here](examples/supermariobros2.jpg).
 
 This map was built using the following configuration:
