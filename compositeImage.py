@@ -31,13 +31,13 @@ class CompositeImageGenerator:
 
 		for filename in self.framefiles:
 			if printStatus:
-				print "processing "+filename
+				print("processing " + filename)
 
 			img2=self.cropImage(Image.open(os.path.join(self.directory,filename)))
 			position=self.ic.compare(img1, img2, False)
 			if printStatus:
-				print " - offset: "+str((position[0],position[1]))
-	
+				print(" - offset: " + str((position[0],position[1])))
+
 			lastpos=(lastpos[0]-position[0], lastpos[1]-position[1])
 			imgpositions.append((lastpos[0], lastpos[1], filename))
 			img1=img2
@@ -58,5 +58,3 @@ class CompositeImageGenerator:
 			compositeimg.paste(i2, (imgp[0]-minx, imgp[1]-miny, imgp[0]-minx+w, imgp[1]-miny+h))
 
 		return compositeimg
-
-

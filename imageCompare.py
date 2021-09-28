@@ -5,11 +5,11 @@ import time
 quickmode=True
 
 class ImageCompare:
-	def __init__(self, tolerance, (maxLeftCheck, maxUpCheck, maxRightCheck, maxDownCheck)):
-		self.maxLeftCheck=maxLeftCheck
-		self.maxRightCheck=maxRightCheck
-		self.maxUpCheck=maxUpCheck
-		self.maxDownCheck=maxDownCheck
+	def __init__(self, tolerance, checkRange):
+		self.maxLeftCheck=checkRange[0]
+		self.maxRightCheck=checkRange[2]
+		self.maxUpCheck=checkRange[1]
+		self.maxDownCheck=checkRange[3]
 		self.tolerance=tolerance # from 0 to 255, around 10 is fine for tolerance
 
 	def compareAt(self, img1, img2, xoffset, yoffset, debug):
@@ -61,7 +61,7 @@ class ImageCompare:
 				err=self.compareAt(img1, img2, xc, yc, False)
 				errortable.append((xc, yc, err))
 		t2=time.time()
-		print "- time "+str(t2-t1)
+		print("- time "+str(t2-t1))
 	
 		minerror=min(errortable, key=lambda x: x[2])
 
